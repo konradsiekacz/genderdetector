@@ -48,17 +48,17 @@ public class GenderService {
         List<String> listOfNames = getPersonNamesInList(name);
 
         for (String femaleName : femaleNames) {
-            if (listOfNames.contains(femaleName)){
+            if (listOfNames.contains(femaleName)) {
                 counterFemaleNames++;
             }
         }
 
-        for (String maleName: maleNames) {
-            if(listOfNames.contains(maleName)){
+        for (String maleName : maleNames) {
+            if (listOfNames.contains(maleName)) {
                 counterMaleNames++;
             }
         }
-        if(counterFemaleNames == counterMaleNames){
+        if (counterFemaleNames == counterMaleNames) {
             return Gender.INCONCLUSIVE.toString();
         }
 
@@ -67,5 +67,16 @@ public class GenderService {
 
     public List<String> getPersonNamesInList(String name) {
         return Arrays.stream(name.split("\n")).collect(Collectors.toList());
+    }
+
+    public String getGenderForSpecificOption(String option, String name) {
+        switch (option) {
+            case "first":
+                return checkFirstNameForGender(name);
+            case "all":
+                return checkAllNameForGender(name);
+        }
+
+        return Gender.INCONCLUSIVE.toString();
     }
 }
