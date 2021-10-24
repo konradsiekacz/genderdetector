@@ -22,18 +22,19 @@ public class GenderService {
 
 
     public String checkFirstNameForGender(String name) {
-        String[] splitName = name.split("\n");
+        int firstNameIndex = 0;
+        String[] splitName = name.split(" ");
         String[] femaleNames = tokenNameDao.getFemaleNames().split("\n");
         String[] maleNames = tokenNameDao.getMaleNames().split("\n");
 
         for (String femaleName : femaleNames) {
-            if (femaleName.equals(splitName[0])) {
+            if (femaleName.equals(splitName[firstNameIndex])) {
                 return Gender.FEMALE.toString();
             }
         }
 
         for (String maleName : maleNames) {
-            if (maleName.equals(name)) {
+            if (maleName.equals(splitName[firstNameIndex])) {
                 return Gender.MALE.toString();
             }
         }
@@ -60,23 +61,22 @@ public class GenderService {
         }
         if (counterFemaleNames == counterMaleNames) {
             return Gender.INCONCLUSIVE.toString();
+        }else {
+            return counterFemaleNames > counterMaleNames ? Gender.FEMALE.toString() : Gender.MALE.toString();
         }
-
-        return counterFemaleNames > counterMaleNames ? Gender.FEMALE.toString() : Gender.MALE.toString();
     }
 
     public List<String> getPersonNamesInList(String name) {
-        return Arrays.stream(name.split("\n")).collect(Collectors.toList());
+        return Arrays.stream(name.split(" ")).collect(Collectors.toList());
     }
 
-    public String getGenderForSpecificOption(String option, String name) {
+    public String getGenderForSpecificOption(String name, String option) {
         switch (option) {
             case "first":
                 return checkFirstNameForGender(name);
             case "all":
                 return checkAllNameForGender(name);
         }
-
         return Gender.INCONCLUSIVE.toString();
     }
 }
