@@ -1,11 +1,11 @@
 package com.konrad.genderdetector.dao;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class TokenNameDao implements TokenDao {
     private final String FEMALE_NAME = "femaleNames.txt";
     private final String MALE_NAME = "maleNames.txt";
@@ -19,7 +19,6 @@ public class TokenNameDao implements TokenDao {
     public String getMaleNames() {
         return readFromInputStream(MALE_NAME);
     }
-
 
     public String readFromInputStream(String fileName) {
         String names = "";
