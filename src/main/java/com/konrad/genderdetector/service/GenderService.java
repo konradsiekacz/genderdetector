@@ -4,7 +4,6 @@ import com.konrad.genderdetector.dao.TokenNameDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
