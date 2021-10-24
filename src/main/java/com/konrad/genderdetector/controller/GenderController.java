@@ -3,9 +3,7 @@ package com.konrad.genderdetector.controller;
 import com.konrad.genderdetector.service.GenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,10 @@ public class GenderController {
         return genderService.getAllFemaleNames();
     }
 
-
+    @GetMapping("/gender/{name}/{option}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String checkGenderType(@PathVariable("name") String name, @PathVariable("option") String option){
+        return genderService.getGenderForSpecificOption(name,option);
+    }
 }
