@@ -5,18 +5,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class GenderService {
     private final TokenNameDao tokenNameDao;
 
-    public String getAllFemaleNames() {
-        return tokenNameDao.getFemaleNames();
+    public List<?> getAllFemaleNames() {
+        String names = tokenNameDao.getFemaleNames() + tokenNameDao.getMaleNames();
+        List<String> allNames = Arrays.asList(names.split("\n"));
+        return allNames;
     }
-
-    public String getAllMaleNames(){
-        return tokenNameDao.getMaleNames();
-    }
-
 }
