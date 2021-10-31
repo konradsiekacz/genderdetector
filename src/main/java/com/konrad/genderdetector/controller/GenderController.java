@@ -13,10 +13,16 @@ public class GenderController {
 
     private final GenderService genderService;
 
-    @GetMapping("/names")
+    @GetMapping("/names/female")
     @ResponseStatus(HttpStatus.OK)
     public String getAllFemaleNames() {
         return genderService.getAllFemaleNames();
+    }
+
+    @GetMapping("names/male")
+    @ResponseStatus(HttpStatus.OK)
+    public String getAllMaleNames(){
+        return genderService.getAllMaleNames();
     }
 
     @GetMapping("/gender/{name}/{option}")
