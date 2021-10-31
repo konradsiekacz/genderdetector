@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,27 +15,27 @@ import java.util.stream.Collectors;
 public class GenderService {
     private final TokenNameDao tokenNameDao;
 
-    public List<?> getAllFemaleNames() {
-        String names = tokenNameDao.getFemaleNames() + tokenNameDao.getMaleNames();
-        List<String> allNames = Arrays.asList(names.split("\n"));
-        return allNames;
+    public String getAllFemaleNames() {
+        return tokenNameDao.getFemaleNames();
+    }
+
+    public String getAllMaleNames() {
+        return tokenNameDao.getMaleNames();
     }
 
 
     public String checkFirstNameForGender(String name) {
-        int firstNameIndex = 0;
-        String[] splitName = name.split(" ");
-        String[] femaleNames = tokenNameDao.getFemaleNames().split("\n");
-        String[] maleNames = tokenNameDao.getMaleNames().split("\n");
+        Scanner femaleNames = tokenNameDao.scanThroughFemaleName();
+        Scanner maleNames = tokenNameDao.scanThroughMaleName();
 
-        for (String femaleName : femaleNames) {
-            if (femaleName.equals(splitName[firstNameIndex])) {
+        while (femaleNames.hasNextLine()){
+            if(femaleNames.nextLine().equals(name)){
                 return Gender.FEMALE.toString();
             }
         }
 
-        for (String maleName : maleNames) {
-            if (maleName.equals(splitName[firstNameIndex])) {
+        while (maleNames.hasNext()){
+            if (maleNames.nextLine().equals(name)){
                 return Gender.MALE.toString();
             }
         }
