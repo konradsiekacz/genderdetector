@@ -15,7 +15,7 @@ public class GenderController {
 
     @GetMapping("/names")
     @ResponseStatus(HttpStatus.OK)
-    public List<?> getAllNames() {
+    public String getAllFemaleNames() {
         return genderService.getAllFemaleNames();
     }
 
