@@ -20,7 +20,6 @@ public class GenderService {
         return tokenNameDao.getMaleNames();
     }
 
-
     public String checkNameForGender(String name) {
         int indexOfName = 0;
         String[] splitName = name.split(" ");
