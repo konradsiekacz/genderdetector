@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.springframework.stereotype.Repository;
 
+import java.beans.FeatureDescriptor;
 import java.io.*;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -25,13 +26,21 @@ public class TokenNameDao implements TokenDao {
         return getAllNamesFromFile(MALE_NAME);
     }
 
+    public Scanner scanThroughFemaleName() {
+        return scanThroughFile(FEMALE_NAME);
+    }
+
+    public Scanner scanThroughMaleName() {
+        return scanThroughFile(MALE_NAME);
+    }
+
     private Scanner scanThroughFile(String pathFile) {
         inputStream = getClass().getResourceAsStream(pathFile);
         scanner = new Scanner(inputStream, "UTF-8");
         return scanner;
     }
 
-    private String getAllNamesFromFile(String pathFile) {
+    public String getAllNamesFromFile(String pathFile) {
         StringBuilder allNames = new StringBuilder();
         scanner = scanThroughFile(pathFile);
         while (scanner.hasNextLine()) {
