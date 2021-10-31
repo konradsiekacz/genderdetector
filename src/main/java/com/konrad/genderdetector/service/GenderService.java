@@ -5,10 +5,7 @@ import com.konrad.genderdetector.model.Gender;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,20 +21,20 @@ public class GenderService {
     }
 
 
-    public String checkFirstNameForGender(String name) {
+    public String checkNameForGender(String name) {
         int indexOfName = 0;
         String[] splitName = name.split(" ");
         Scanner femaleNames = tokenNameDao.scanThroughFemaleName();
         Scanner maleNames = tokenNameDao.scanThroughMaleName();
 
-        while (femaleNames.hasNext()){
-            if(femaleNames.nextLine().equals(splitName[indexOfName])){
+        while (femaleNames.hasNext()) {
+            if (femaleNames.nextLine().equals(splitName[indexOfName])) {
                 return Gender.FEMALE.toString();
             }
         }
 
-        while (maleNames.hasNext()){
-            if (maleNames.nextLine().equals(splitName[indexOfName])){
+        while (maleNames.hasNext()) {
+            if (maleNames.nextLine().equals(splitName[indexOfName])) {
                 return Gender.MALE.toString();
             }
         }
@@ -45,38 +42,29 @@ public class GenderService {
     }
 
     public String checkAllNameForGender(String name) {
-        String[] femaleNames = tokenNameDao.getFemaleNames().split("\n");
-        String[] maleNames = tokenNameDao.getMaleNames().split("\n");
-        int counterFemaleNames = 0;
-        int counterMaleNames = 0;
-        List<String> listOfNames = getPersonNamesInList(name);
 
-        for (String femaleName : femaleNames) {
-            if (listOfNames.contains(femaleName)) {
-                counterFemaleNames++;
+        String[] splitName = name.split(" ");
+        long numberOfFemaleNames = 0;
+        long numberOfMaleNames = 0;
+
+        for (String eachName : splitName) {
+            if (checkNameForGender(eachName).equals(Gender.FEMALE.toString())) {
+                numberOfFemaleNames++;
+            } else if (checkNameForGender(eachName).equals(Gender.MALE.toString())) {
+                numberOfMaleNames++;
             }
         }
-
-        for (String maleName : maleNames) {
-            if (listOfNames.contains(maleName)) {
-                counterMaleNames++;
-            }
-        }
-        if (counterFemaleNames == counterMaleNames) {
+        if (numberOfFemaleNames == numberOfMaleNames) {
             return Gender.INCONCLUSIVE.toString();
-        }else {
-            return counterFemaleNames > counterMaleNames ? Gender.FEMALE.toString() : Gender.MALE.toString();
         }
+        return numberOfFemaleNames > numberOfMaleNames ? Gender.FEMALE.toString() : Gender.MALE.toString();
     }
 
-    public List<String> getPersonNamesInList(String name) {
-        return Arrays.stream(name.split(" ")).collect(Collectors.toList());
-    }
 
     public String getGenderForSpecificOption(String name, String option) {
         switch (option) {
             case "first":
-                return checkFirstNameForGender(name);
+                return checkNameForGender(name);
             case "all":
                 return checkAllNameForGender(name);
         }
