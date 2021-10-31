@@ -25,17 +25,19 @@ public class GenderService {
 
 
     public String checkFirstNameForGender(String name) {
+        int indexOfName = 0;
+        String[] splitName = name.split(" ");
         Scanner femaleNames = tokenNameDao.scanThroughFemaleName();
         Scanner maleNames = tokenNameDao.scanThroughMaleName();
 
-        while (femaleNames.hasNextLine()){
-            if(femaleNames.nextLine().equals(name)){
+        while (femaleNames.hasNext()){
+            if(femaleNames.nextLine().equals(splitName[indexOfName])){
                 return Gender.FEMALE.toString();
             }
         }
 
         while (maleNames.hasNext()){
-            if (maleNames.nextLine().equals(name)){
+            if (maleNames.nextLine().equals(splitName[indexOfName])){
                 return Gender.MALE.toString();
             }
         }
